@@ -1,0 +1,138 @@
+name: Test Action
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+  workflow_dispatch:
+
+concurrency:
+  group: test
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete stale bump branches and close PRs
+        env:
+          GH_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+        run: |
+          for branch in $(gh api repos/${{github.repository}}/branches --paginate -q '.[].name | select(startswith("bump-"))'); do
+            pr_number=$(gh pr list --repo ${{github.repository}} --head "$branch" --state open --json number -q '.[0].number')
+            if [ -n "$pr_number" ]; then
+              gh pr close "$pr_number" --repo ${{github.repository}} --delete-branch
+            else
+              gh api -X DELETE repos/${{github.repository}}/git/refs/heads/$branch
+            fi
+          done
+  test:
+    needs:
+      - cleanup
+    strategy:
+      matrix:
+        include:
+          - formula: test-formula-url
+            tag: v0.1.12
+          - formula: test-formula-git-revision
+            tag: v0.3.3
+            revision: c43abd765cf51c06bbcaa5479dc49aab1396989f
+          - formula: test-formula-pypi-url
+            tag: v2.42.0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Test
+        uses: ./
+        with:
+          token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+          tap: ${{github.repository}}
+          tap_url: ${{github.server_url}}/${{github.repository}}
+          formula: ${{matrix.formula}}
+          tag: ${{matrix.tag}}
+          revision: ${{matrix.revision}}
+          force: true
+  cleanup-before-livecheck-formula:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    steps:
+      - name: Delete stale bump branches and close PRs
+        env:
+          GH_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+        run: |
+          for branch in $(gh api repos/${{github.repository}}/branches --paginate -q '.[].name | select(startswith("bump-"))'); do
+            pr_number=$(gh pr list --repo ${{github.repository}} --head "$branch" --state open --json number -q '.[0].number')
+            if [ -n "$pr_number" ]; then
+              gh pr close "$pr_number" --repo ${{github.repository}} --delete-branch
+            else
+              gh api -X DELETE repos/${{github.repository}}/git/refs/heads/$branch
+            fi
+          done
+  test-livecheck-formula:
+    runs-on: macos-latest
+    needs:
+      - cleanup-before-livecheck-formula
+    steps:
+      - name: Wait
+        run: sleep 30
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Test
+        uses: ./
+        with:
+          token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+          message: test
+          formula: |
+            test-formula-url
+            test-formula-git-revision
+            test-formula-pypi-url
+          tap: ${{github.repository}}
+          tap_url: ${{github.server_url}}/${{github.repository}}
+          livecheck: true
+          force: true
+  cleanup-before-livecheck-tap:
+    runs-on: ubuntu-latest
+    needs:
+      - test-livecheck-formula
+    steps:
+      - name: Delete stale bump branches and close PRs
+        env:
+          GH_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+        run: |
+          for branch in $(gh api repos/${{github.repository}}/branches --paginate -q '.[].name | select(startswith("bump-"))'); do
+            pr_number=$(gh pr list --repo ${{github.repository}} --head "$branch" --state open --json number -q '.[0].number')
+            if [ -n "$pr_number" ]; then
+              gh pr close "$pr_number" --repo ${{github.repository}} --delete-branch
+            else
+              gh api -X DELETE repos/${{github.repository}}/git/refs/heads/$branch
+            fi
+          done
+  test-livecheck-tap:
+    runs-on: ubuntu-latest
+    needs:
+      - cleanup-before-livecheck-tap
+    steps:
+      - name: Wait
+        run: sleep 30
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Test
+        uses: ./
+        with:
+          token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+          message: |
+            First line
+            SECOND LINE
+          tap: ${{github.repository}}
+          tap_url: ${{github.server_url}}/${{github.repository}}
+          livecheck: true
+          force: true
