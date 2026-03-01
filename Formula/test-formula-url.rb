@@ -6,14 +6,12 @@ class TestFormulaUrl < Formula
   license "MIT"
 
   def install
-    (buildpath/"test").write <<~EOS
+    (buildpath / "test").write <<~EOS
       test
     EOS
 
     share.install "test"
   end
 
-  test do
-    sleep 1
-  end
+  test { sleep 1 }
 end

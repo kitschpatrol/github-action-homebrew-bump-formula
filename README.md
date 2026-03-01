@@ -1,3 +1,11 @@
+Fork of [dawidd6/action-homebrew-bump-formula](https://github.com/dawidd6/action-homebrew-bump-formula).
+
+The `package.json` is included simply to track metadata and run scripts.
+
+Original readme below:
+
+---
+
 # Homebrew bump formula GitHub Action
 
 An action that wraps `brew bump-formula-pr` to ease the process of updating the formula on new project releases.

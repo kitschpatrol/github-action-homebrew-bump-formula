@@ -1,0 +1,33 @@
+{
+	"name": "github-action-homebrew-bump-formula",
+	"version": "7.0.0",
+	"private": true,
+	"description": "A GitHub Action to easily bump a Homebrew formula on new release.",
+	"keywords": [
+		"github-action",
+		"action",
+		"formula",
+		"homebrew"
+	],
+	"homepage": "https://github.com/kitschpatrol/github-action-homebrew-bump-formula",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kitschpatrol/github-action-homebrew-bump-formula.git"
+	},
+	"license": "MIT",
+	"sideEffects": false,
+	"type": "module",
+	"scripts": {
+		"clean": "git rm -f pnpm-lock.yaml ; git clean -fdX",
+		"fix": "ksc-prettier fix",
+		"lint": "ksc-prettier lint",
+		"updatetag": "git tag -d v7 && git push origin :v7 && git tag -a v7 -m '' && git push origin v7"
+	},
+	"devDependencies": {
+		"@kitschpatrol/prettier-config": "^6.0.2"
+	},
+	"packageManager": "pnpm@10.30.3",
+	"engines": {
+		"node": ">=22.0.0"
+	}
+}
