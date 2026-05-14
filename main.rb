@@ -135,15 +135,22 @@ module Homebrew
       formula = formula.map { |f| tap + '/' + f } unless tap.blank?
     end
 
-    # Get livecheck info
-    json = read_brew 'livecheck',
-                     '--formula',
-                     '--quiet',
-                     '--newer-only',
-                     '--full-name',
-                     '--json',
-                     *("--tap=#{tap}" if !tap.blank? && formula.blank?),
-                     *(formula unless formula.blank?)
+    # Get livecheck info. When checking a whole tap with no explicit formulae,
+    # `brew livecheck` exits non-zero if the tap has none; treat that as a
+    # no-op so taps that are empty or currently casks-only don't fail.
+    json = if !tap.blank? && formula.blank? && Tap.fetch(tap).formula_files.empty?
+             opoo "Tap '#{tap}' has no formulae; nothing to bump."
+             '[]'
+           else
+             read_brew 'livecheck',
+                       '--formula',
+                       '--quiet',
+                       '--newer-only',
+                       '--full-name',
+                       '--json',
+                       *("--tap=#{tap}" if !tap.blank? && formula.blank?),
+                       *(formula unless formula.blank?)
+           end
     json = JSON.parse json
 
     # Define error
