@@ -31,12 +31,14 @@
 		"clean": "shx rm -f pnpm-lock.yaml && git clean -fdX -e !.claude/",
 		"fix": "ksc-prettier fix",
 		"lint": "ksc-prettier lint",
-		"updatetag": "git tag -d v7 && git push origin :v7 && git tag -a v7 -m '' && git push origin v7"
+		"release": "bumpp --commit 'Release: %s' && ./scripts/sync-major-tag.sh"
 	},
 	"devDependencies": {
-		"@kitschpatrol/prettier-config": "^7.6.0"
+		"@kitschpatrol/prettier-config": "^8.7.0",
+		"bumpp": "^12.2.2",
+		"shx": "^0.4.0"
 	},
-	"packageManager": "pnpm@11.1.2",
+	"packageManager": "pnpm@11.25.0",
 	"engines": {
 		"node": ">=22.0.0"
 	}
