@@ -17,6 +17,7 @@ end
 
 module Homebrew
   extend Utils::Output::Mixin
+  extend SystemCommand::Helpers
   module_function
 
   def print_command(*cmd)
@@ -25,12 +26,12 @@ module Homebrew
 
   def brew(*args)
     print_command ENV["HOMEBREW_BREW_FILE"], *args
-    SystemCommand.safe_system ENV["HOMEBREW_BREW_FILE"], *args
+    safe_system ENV["HOMEBREW_BREW_FILE"], *args
   end
 
   def git(*args)
     print_command ENV["HOMEBREW_GIT"], *args
-    SystemCommand.safe_system ENV["HOMEBREW_GIT"], *args
+    safe_system ENV["HOMEBREW_GIT"], *args
   end
 
   def read_brew(*args)
@@ -48,6 +49,7 @@ module Homebrew
   no_fork = ENV['HOMEBREW_BUMP_NO_FORK']
   tap = ENV['HOMEBREW_BUMP_TAP']
   tap_url = ENV['HOMEBREW_BUMP_TAP_URL']
+  branch = ENV['HOMEBREW_BUMP_BRANCH']
   formula = ENV['HOMEBREW_BUMP_FORMULA']
   tag = ENV['HOMEBREW_BUMP_TAG']
   revision = ENV['HOMEBREW_BUMP_REVISION']
@@ -92,6 +94,14 @@ module Homebrew
     brew 'trust', tap
   end
 
+  # `brew bump-formula-pr` branches from and targets the tap clone's
+  # origin/HEAD, so repoint it to bump against a non-default branch.
+  unless branch.blank?
+    tap_path = Tap.fetch(tap.blank? ? 'homebrew/core' : tap).path
+    git '-C', tap_path, 'fetch', 'origin', "#{branch}:refs/remotes/origin/#{branch}"
+    git '-C', tap_path, 'remote', 'set-head', 'origin', branch
+  end
+
   # Append additional PR message
   message = if message.blank?
               ''
@@ -100,10 +110,16 @@ module Homebrew
             end
   message += '[`action-homebrew-bump-formula`](https://github.com/dawidd6/action-homebrew-bump-formula)'
 
-  unless force.false?
-    brew_repo = read_brew '--repository'
-    git '-C', brew_repo, 'apply', "#{__dir__}/bump-formula-pr.rb.patch"
-  end
+  brew_repo = read_brew '--repository'
+
+  # Bypass the PyPI release cooldown for the bumped formula's own package,
+  # otherwise bumping right after a release fails to resolve resources.
+  # Dependencies still respect the cooldown and official taps are unaffected.
+  # This is what `brew update-python-resources --ignore-main-package-cooldown`
+  # does, but `brew bump-formula-pr` doesn't expose it.
+  git '-C', brew_repo, 'apply', "#{__dir__}/bump-formula-pr-cooldown.rb.patch"
+
+  git '-C', brew_repo, 'apply', "#{__dir__}/bump-formula-pr.rb.patch" unless force.false?
 
   # Do the livecheck stuff or not
   if livecheck.false?
