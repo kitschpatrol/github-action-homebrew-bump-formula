@@ -112,7 +112,7 @@ Formulae using the git download strategy are exempt, as they are bumped by tag a
 - https://github.com/dawidd6/action-homebrew-bump-formula/blob/master/.github/workflows/test.yml
 - https://github.com/dawidd6/ba-bump/blob/master/.github/workflows/bump.yml
 - https://github.com/ablinov/declutter/blob/master/.github/workflows/bump_homebrew_formula.yml
-- https://github.com/jesseduffield/lazygit/blob/master/.github/workflows/cd.yml
+- https://github.com/jesseduffield/lazygit/blob/master/.github/workflows/ci.yml
 - https://github.com/stephan-hesselmann-by/homebrew-BlueYonder/blob/master/.github/workflows/update-tap.yml
 - https://github.com/crunchtime-ali/brew-formula-updater/blob/master/.github/workflows/main.yml
 - https://github.com/asciidoc/asciidoc-py3/blob/master/.github/workflows/release.yml
