@@ -108,7 +108,7 @@ module Homebrew
             else
               message + "\n\n"
             end
-  message += '[`action-homebrew-bump-formula`](https://github.com/dawidd6/action-homebrew-bump-formula)'
+  message += '[`github-action-homebrew-bump-formula`](https://github.com/kitschpatrol/github-action-homebrew-bump-formula)'
 
   brew_repo = read_brew '--repository'
 
