@@ -1,3 +1,5 @@
+Diff to trigger fork tender...
+
 Fork of [dawidd6/action-homebrew-bump-formula](https://github.com/dawidd6/action-homebrew-bump-formula).
 
 The `package.json` is included simply to track metadata and run scripts.
