@@ -1,3 +1,10 @@
+<!-- badges({ githubRelease: true }) -->
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit)
+[![GitHub Release](https://img.shields.io/github/v/release/kitschpatrol/github-action-homebrew-bump-formula?label=Release)](https://github.com/kitschpatrol/github-action-homebrew-bump-formula/releases/latest)
+
+<!-- /badges -->
+
 Fork of [dawidd6/action-homebrew-bump-formula](https://github.com/dawidd6/action-homebrew-bump-formula).
 
 The `package.json` is included simply to track metadata and run scripts.
@@ -109,15 +116,15 @@ Formulae using the git download strategy are exempt, as they are bumped by tag a
 
 ## Examples
 
-- https://github.com/dawidd6/action-homebrew-bump-formula/blob/master/.github/workflows/test.yml
-- https://github.com/dawidd6/ba-bump/blob/master/.github/workflows/bump.yml
-- https://github.com/ablinov/declutter/blob/master/.github/workflows/bump_homebrew_formula.yml
-- https://github.com/jesseduffield/lazygit/blob/master/.github/workflows/ci.yml
-- https://github.com/stephan-hesselmann-by/homebrew-BlueYonder/blob/master/.github/workflows/update-tap.yml
-- https://github.com/crunchtime-ali/brew-formula-updater/blob/master/.github/workflows/main.yml
-- https://github.com/asciidoc/asciidoc-py3/blob/master/.github/workflows/release.yml
-- https://github.com/bow-swift/nef/blob/master/.github/workflows/bump-formula.yml
-- https://github.com/dandavison/delta/blob/master/.github/workflows/cd.yml
-- https://github.com/GitTools/GitVersion/blob/main/.github/workflows/homebrew.yml
-- https://github.com/wormi4ok/evernote2md/blob/master/.github/workflows/publish.yml
-- https://github.com/cloudskiff/driftctl/blob/main/.github/workflows/homebrew.yml
+- <https://github.com/dawidd6/action-homebrew-bump-formula/blob/master/.github/workflows/test.yml>
+- <https://github.com/dawidd6/ba-bump/blob/master/.github/workflows/bump.yml>
+- <https://github.com/ablinov/declutter/blob/master/.github/workflows/bump_homebrew_formula.yml>
+- <https://github.com/jesseduffield/lazygit/blob/master/.github/workflows/ci.yml>
+- <https://github.com/stephan-hesselmann-by/homebrew-BlueYonder/blob/master/.github/workflows/update-tap.yml>
+- <https://github.com/crunchtime-ali/brew-formula-updater/blob/master/.github/workflows/main.yml>
+- <https://github.com/asciidoc/asciidoc-py3/blob/master/.github/workflows/release.yml>
+- <https://github.com/bow-swift/nef/blob/master/.github/workflows/bump-formula.yml>
+- <https://github.com/dandavison/delta/blob/master/.github/workflows/cd.yml>
+- <https://github.com/GitTools/GitVersion/blob/main/.github/workflows/homebrew.yml>
+- <https://github.com/wormi4ok/evernote2md/blob/master/.github/workflows/publish.yml>
+- <https://github.com/cloudskiff/driftctl/blob/main/.github/workflows/homebrew.yml>
