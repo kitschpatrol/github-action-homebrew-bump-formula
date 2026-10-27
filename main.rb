@@ -2,6 +2,7 @@
 
 require 'formula'
 require 'system_command'
+require 'utils/github'
 
 class Object
   def false?
@@ -182,6 +183,18 @@ module Homebrew
       # Get info about formula
       formula = info['formula']
       version = info['version']['latest']
+
+      # Skip if a bump PR for this version is already open, since `brew bump-formula-pr`
+      # only warns about duplicates in non-official taps and then fails to push
+      # over the existing PR's branch
+      if force.false?
+        loaded_formula = Formulary.factory(formula)
+        open_prs = GitHub.fetch_pull_requests(loaded_formula.name, loaded_formula.tap.remote_repository, state: 'open', version: version)
+        unless open_prs.empty?
+          puts "Skipping #{formula}, open pull request exists: #{open_prs.map { |pr| pr['html_url'] }.join(' ')}"
+          next
+        end
+      end
 
       begin
         # Finally bump the formula
