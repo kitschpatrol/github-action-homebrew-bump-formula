@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+Entries are drafted with LLM assistance via [Chagent](https://github.com/kitschpatrol/chagent).
+
 ## [Unreleased]
+
+### Fixed
+
+- Fix action startup failures on current Homebrew by updating the PyPI cooldown patch for the refactored `brew bump-formula-pr` command.
 
 ### Documentation
 
@@ -15,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add mdat checks and Markdown updates to the lint and fix scripts.
 - Refresh pnpm and shared Markdown/formatting tooling, adjust package release-age exceptions and simplify deep cleanup.
+- Backfill the changelog, run `chagent` during version bumps, and upgrade `github-action-release-changelog` to v3.
+- Update the Fork Tender and Repo Sync actions used for upstream merges and GitHub repository metadata.
 
 ## [10.0.2] - 2026-10-27
 
@@ -483,7 +491,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Establish MIT licensing and integration CI for archive and Git-revision bumps.
 
-[Unreleased]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v10.0.2...HEAD
 [1.0.0]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/releases/tag/v1.0.0
 [1.1.0]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v1.0.0...v1.1.0
 [1.2.0]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v1.1.0...v1.2.0
@@ -524,3 +531,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [10.0.0]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v8.0.0...v10.0.0
 [10.0.1]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v10.0.0...v10.0.1
 [10.0.2]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v10.0.1...v10.0.2
+[Unreleased]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v10.0.2...HEAD
