@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Entries are drafted with LLM assistance via [Chagent](https://github.com/kitschpatrol/chagent).
 
-## [Unreleased]
+## [11.0.0] - 2026-11-23
 
 ### Fixed
 
@@ -531,4 +531,4 @@ Entries are drafted with LLM assistance via [Chagent](https://github.com/kitschp
 [10.0.0]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v8.0.0...v10.0.0
 [10.0.1]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v10.0.0...v10.0.1
 [10.0.2]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v10.0.1...v10.0.2
-[Unreleased]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v10.0.2...HEAD
+[11.0.0]: https://github.com/kitschpatrol/github-action-homebrew-bump-formula/compare/v10.0.2...v11.0.0
